@@ -20,16 +20,20 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin Utama',
                 'password' => Hash::make('12345678'),
                 'role' => 'admin',
+                'nrp' => 'NRP001',
+                'no_hp' => '081234567890',
             ]
         );
 
-        // Kalau mau bikin user biasa juga
+        // User biasa
         User::updateOrCreate(
             ['email' => 'user@contoh.com'],
             [
                 'name' => 'User Biasa',
                 'password' => Hash::make('12345678'),
                 'role' => 'user',
+                'nrp' => 'NRP002',
+                'no_hp' => '089876543210',
             ]
         );
     }

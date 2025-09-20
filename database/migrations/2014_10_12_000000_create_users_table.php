@@ -21,6 +21,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('role')->default('user'); // tambah kolom role
 
+            // Tambahan kolom baru
+            $table->string('nrp')->unique(); // NRP mahasiswa/pegawai
+            $table->string('no_hp')->nullable(); // nomor HP
         });
     }
 
