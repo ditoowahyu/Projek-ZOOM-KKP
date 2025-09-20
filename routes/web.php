@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ZoomScheduleController;
 use App\Http\Controllers\PublicScheduleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,19 +32,59 @@ Route::get('/home', function () {
     return redirect()->route('user.schedules');
 })->middleware('auth')->name('home');
 
+/*
+|--------------------------------------------------------------------------
+| Anggota
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::resource('anggota', AnggotaController::class);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Zoom Schedules
+|--------------------------------------------------------------------------
+*/
 // ✅ user melihat jadwal zoom
 Route::get('/schedules', [PublicScheduleController::class, 'index'])
     ->middleware('auth')
     ->name('user.schedules');
 
 // ✅ hanya admin bisa kelola jadwal
-Route::middleware(['auth','admin'])
+Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('schedules', ZoomScheduleController::class);
     });
 
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('reports', [ReportController::class, 'adminIndex'])->name('reports.index');
+        Route::delete('reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
+    });
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Reports
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::resource('reports', ReportController::class);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Profile
+|--------------------------------------------------------------------------
+*/
 // ✅ profile bawaan Breeze
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,5 +97,12 @@ Route::put('/profile/update', [UserController::class, 'updateProfile'])
     ->middleware('auth')
     ->name('profile.update.custom');
 
-// ✅ auth routes dari Breeze
-require __DIR__.'/auth.php';
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
+require __DIR__ . '/auth.php';

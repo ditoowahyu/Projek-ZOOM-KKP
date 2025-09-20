@@ -32,43 +32,7 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-custom animate__animated animate__fadeInDown shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-            <img src="{{ asset('images/polda-logo.png') }}" alt="Logo Polda Maluku" class="brand-logo">
-            POLDA Maluku
-        </a>
-
-        <!-- Toggle untuk mobile -->
-        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Menu -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav align-items-lg-center ms-auto">
-                <!-- Profil user -->
-                <li class="nav-item d-flex align-items-center mb-2 mb-lg-0">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=3a3a3a&color=fff" 
-                         alt="Profile" class="profile-img">
-                    <span class="text-white fw-semibold ms-2 d-lg-inline d-block">
-                        {{ Auth::user()->name }}
-                    </span>
-                </li>
-                <!-- Tombol Logout -->
-                <li class="nav-item mt-2 mt-lg-0 ms-lg-3">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-outline-light w-100 w-lg-auto">
-                            Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+    @include('schedules.navbar')
 
 
     <!-- Content -->
