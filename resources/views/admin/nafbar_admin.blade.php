@@ -79,19 +79,23 @@
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
                         <i class="fas fa-chart-bar mr-1"></i> Dashboard
                     </a>
+
+                     <a href="{{ route('admin.schedules.index') }}"
+                        class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
+                        <i class="fas fa-video mr-1"></i> Jadwal Zoom
+                    </a>
+                    
                     <a href="{{ route('anggota.index') }}"
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
                         <i class="fas fa-users mr-1"></i> Data Anggota
                     </a>
-                    <a href="{{ route('admin.schedules.index') }}"
-                        class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
-                        <i class="fas fa-video mr-1"></i> Jadwal Zoom
-                    </a>
-                  
+                   
+
                     <a href="{{ route('admin.reports.index') }}"
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
-                        <i class="fas fa-video mr-1"></i>  Data Laporan Zoon
+                        <i class="fas fa-file-alt mr-2"></i> Data Laporan Zoom
                     </a>
+
 
                     <!-- User dropdown -->
                     <div class="relative ml-3" x-data="{ open: false }">

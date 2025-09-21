@@ -37,9 +37,15 @@ Route::get('/home', function () {
 | Anggota
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
+//     Route::resource('anggota', AnggotaController::class);
+// });
+
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('anggota', AnggotaController::class);
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -67,8 +73,18 @@ Route::middleware(['auth', 'admin'])
         Route::delete('reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
     });
 
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    // Index admin → lihat semua laporan
+    Route::get('reports', [ReportController::class, 'adminIndex'])->name('admin.reports.index');
 
+    // Update laporan
+    Route::put('reports/{report}', [ReportController::class, 'update'])->name('admin.reports.update');
 
+    // Hapus laporan
+    Route::delete('reports/{report}', [ReportController::class, 'destroy'])->name('admin.reports.destroy');
+});
+
+Route::resource('reports', ReportController::class);
 
 /*
 |--------------------------------------------------------------------------

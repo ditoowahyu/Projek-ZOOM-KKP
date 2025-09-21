@@ -199,10 +199,65 @@
                                     <small class="text-muted">
                                         <i class="fas fa-user me-1"></i>{{ $report->user->name }}
                                     </small>
-                                    <small class="text-muted">
-                                        <i class="far fa-calendar me-1"></i>{{ $report->created_at->format('H:i') }}
-                                    </small>
+                                    <div>
+                                        <!-- Tombol Edit -->
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#editReportModal{{ $report->id }}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Edit -->
+                    <div class="modal fade" id="editReportModal{{ $report->id }}" tabindex="-1"
+                        aria-labelledby="editReportModalLabel{{ $report->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark text-white">
+                                    <h5 class="modal-title" id="editReportModalLabel{{ $report->id }}"><i
+                                            class="fas fa-edit me-2"></i>Edit Laporan</h5>
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <form action="{{ route('reports.update', $report->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="title{{ $report->id }}" class="form-label">Judul
+                                                Laporan</label>
+                                            <input type="text" name="title" class="form-control"
+                                                id="title{{ $report->id }}" value="{{ $report->title }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description{{ $report->id }}"
+                                                class="form-label">Deskripsi</label>
+                                            <textarea name="description" class="form-control" id="description{{ $report->id }}" rows="4" required>{{ $report->description }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Gambar</label>
+                                            @if ($report->image)
+                                                <div class="mb-2">
+                                                    <img src="{{ asset('storage/' . $report->image) }}"
+                                                        alt="Current Image" class="img-thumbnail"
+                                                        style="max-height: 150px;">
+                                                </div>
+                                            @endif
+                                            <input type="file" name="image" class="form-control">
+                                            <small class="text-muted">Kosongkan jika tidak ingin mengubah
+                                                gambar.</small>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
