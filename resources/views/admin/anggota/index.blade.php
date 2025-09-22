@@ -15,10 +15,10 @@
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold text-primary">👥 Data Anggota</h2>
+            <h2 class="fw-bold text-primary">👥 Data Petugas</h2>
             <!-- Tombol Tambah -->
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                ➕ Tambah Anggota
+                ➕ Tambah Anggota petugas
             </button>
         </div>
 
@@ -51,7 +51,7 @@
                                     </button>
 
                                     <!-- Tombol Hapus -->
-                                    <form action="{{ route('anggota.destroy', $user->id) }}" method="POST"
+                                    <form action="{{ route('admin.anggota.destroy', $user->id) }}" method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus anggota ini?');">
                                         @csrf
@@ -71,7 +71,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form action="{{ route('anggota.update', $user->id) }}" method="POST">
+                                        <form action="{{ route('admin.anggota.update', $user->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
@@ -125,7 +125,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form action="{{ route('anggota.store') }}" method="POST">
+                <form action="{{ route('admin.anggota.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">

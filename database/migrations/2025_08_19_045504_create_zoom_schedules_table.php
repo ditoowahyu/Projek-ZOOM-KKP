@@ -12,14 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('zoom_schedules', function (Blueprint $table) {
-    $table->id();
-    $table->string('title');
-    $table->string('meeting_id');
-    $table->string('password')->nullable();
-    $table->dateTime('schedule_time');
-    $table->timestamps();
-});
+            $table->id();
+            $table->string('title');
+            $table->string('meeting_id');
+            $table->string('password')->nullable();
+            $table->dateTime('schedule_time');
 
+            // relasi ke tabel perwira & anggota
+          $table->foreignId('perwira_id')->nullable()->constrained('perwira')->nullOnDelete();
+
+
+            $table->foreignId('anggota_id')->nullable()->constrained('users')->nullOnDelete();
+
+
+            $table->timestamps();
+        });
     }
 
     /**

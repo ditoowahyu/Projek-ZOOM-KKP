@@ -16,12 +16,12 @@
             min-height: 100vh;
         }
         .navbar {
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .card {
             border: none;
             border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 0.8s ease;
         }
         .card-header {
@@ -50,18 +50,6 @@
     </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#">⚡ Admin Panel</a>
-        <div class="d-flex">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-outline-light">Logout</button>
-            </form>
-        </div>
-    </div>
-</nav>
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center animate__animated animate__fadeInDown">✏️ Edit Jadwal Zoom</h2>
@@ -94,7 +82,34 @@
                 <div class="mb-3">
                     <label class="form-label">Tanggal & Waktu</label>
                     <input type="datetime-local" name="schedule_time" class="form-control"
-                           value="{{ old('schedule_time', \Carbon\Carbon::parse($schedule->schedule_time)->format('Y-m-d\TH:i')) }}" required>
+                           value="{{ old('schedule_time', \Carbon\Carbon::parse($schedule->schedule_time)->format('Y-m-d\TH:i')) }}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pilih Anggota</label>
+                    <select name="anggota_id" class="form-select">
+                        <option value="">-- Pilih Anggota --</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}"
+                                {{ old('anggota_id', $schedule->anggota_id) == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }} ({{ $user->email }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pilih Perwira</label>
+                    <select name="perwira_id" class="form-select">
+                        <option value="">-- Pilih Perwira --</option>
+                        @foreach ($perwira as $p)
+                            <option value="{{ $p->id }}"
+                                {{ old('perwira_id', $schedule->perwira_id) == $p->id ? 'selected' : '' }}>
+                                {{ $p->nama }} ({{ $p->nrp }})
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="d-flex justify-content-between">

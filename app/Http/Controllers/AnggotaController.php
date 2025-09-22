@@ -33,7 +33,7 @@ class AnggotaController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('anggota.index')->with('success', 'Anggota berhasil ditambahkan.');
+        return redirect()->route('admin.anggota.index')->with('success', 'Anggota berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -48,7 +48,7 @@ class AnggotaController extends Controller
 
         $user->update($request->only(['name', 'email', 'nrp', 'no_hp']));
 
-        return redirect()->route('anggota.index')->with('success', 'Data anggota berhasil diperbarui.');
+        return redirect()->route('admin.anggota.index')->with('success', 'Data anggota berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -56,6 +56,6 @@ class AnggotaController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('anggota.index')->with('success', 'Anggota berhasil dihapus.');
+        return redirect()->route('admin.anggota.index')->with('success', 'Anggota berhasil dihapus.');
     }
 }

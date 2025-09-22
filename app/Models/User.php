@@ -52,5 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
-    
+    public function schedules()
+{
+    return $this->hasMany(ZoomSchedule::class, 'anggota_id');
+}
 }

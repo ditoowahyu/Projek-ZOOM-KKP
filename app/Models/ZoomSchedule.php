@@ -14,10 +14,22 @@ class ZoomSchedule extends Model
         'meeting_id',
         'password',
         'schedule_time',
+        'perwira_id',
+        'anggota_id',
     ];
 
-    // Casting schedule_time ke Carbon
     protected $casts = [
         'schedule_time' => 'datetime',
     ];
+
+    // Relasi ke tabel perwira
+
+    public function perwira()
+    {
+        return $this->belongsTo(Perwira::class, 'perwira_id');
+    }
+    public function anggota()
+    {
+        return $this->belongsTo(User::class, 'anggota_id');
+    }
 }

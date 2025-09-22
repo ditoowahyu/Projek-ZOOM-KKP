@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Storage;
 class ReportController extends Controller
 {
     /**
-     * Menampilkan laporan untuk user biasa
+     * Menampilkan daftar laporan
+     * - Admin → semua laporan
+     * - User → hanya laporan miliknya
      */
     public function index()
     {
-        // Ambil laporan milik user yang login
+        if (Auth::user()->role === 'admin') {
+            $reports = Report::with('user')->latest()->paginate(10);
+            return view('admin.reports.index', compact('reports'));
+        }
+
         $reports = Report::with('user')
             ->where('user_id', Auth::id())
             ->latest()
@@ -24,21 +30,14 @@ class ReportController extends Controller
     }
 
     /**
-     * Menampilkan laporan untuk admin
-     */
-    public function adminIndex()
-    {
-        // Ambil semua laporan
-        $reports = Report::with('user')->latest()->paginate(10);
-
-        return view('admin.reports.index', compact('reports'));
-    }
-
-    /**
-     * Menampilkan halaman form untuk membuat laporan baru
+     * Menampilkan halaman form membuat laporan baru
      */
     public function create()
     {
+        if (Auth::user()->role === 'admin') {
+            return view('admin.reports.create');
+        }
+
         return view('reports.create');
     }
 
@@ -47,20 +46,16 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'required|string',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Upload file jika ada
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('reports', 'public');
-        }
+        $imagePath = $request->hasFile('image')
+            ? $request->file('image')->store('reports', 'public')
+            : null;
 
-        // Simpan ke database
         Report::create([
             'user_id'     => Auth::id(),
             'title'       => $request->title,
@@ -68,7 +63,53 @@ class ReportController extends Controller
             'image'       => $imagePath,
         ]);
 
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil dikirim!');
+        }
+
         return redirect()->route('reports.index')->with('success', 'Laporan berhasil dikirim!');
+    }
+
+    /**
+     * Menampilkan halaman detail laporan
+     */
+    public function show(Report $report)
+    {
+        if (Auth::user()->role === 'admin') {
+            return view('admin.reports.show', compact('report'));
+        }
+
+        return view('reports.show', compact('report'));
+    }
+
+    /**
+     * Update laporan
+     */
+    public function update(Request $request, Report $report)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $report->title = $validated['title'];
+        $report->description = $validated['description'];
+
+        if ($request->hasFile('image')) {
+            if ($report->image && Storage::exists('public/' . $report->image)) {
+                Storage::delete('public/' . $report->image);
+            }
+            $report->image = $request->file('image')->store('reports', 'public');
+        }
+
+        $report->save();
+
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil diperbarui!');
+        }
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil diperbarui!');
     }
 
     /**
@@ -80,7 +121,6 @@ class ReportController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        // Hapus gambar jika ada
         if ($report->image) {
             Storage::disk('public')->delete($report->image);
         }
@@ -88,52 +128,5 @@ class ReportController extends Controller
         $report->delete();
 
         return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil dihapus!');
-    }
-    public function update(Request $request, Report $report)
-    {
-        // Validasi input
-        $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'required|string',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        // Update data
-        $report->title = $validated['title'];
-        $report->description = $validated['description'];
-
-        // Jika ada gambar baru diupload
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama kalau ada
-            if ($report->image && Storage::exists('public/' . $report->image)) {
-                Storage::delete('public/' . $report->image);
-            }
-
-            // Simpan gambar baru
-            $path = $request->file('image')->store('reports', 'public');
-            $report->image = $path;
-        }
-
-        $report->save();
-
-        // Redirect sesuai role
-        if (Auth::user()->role === 'admin') {
-            return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil diperbarui!');
-        }
-
-        return redirect()->route('reports.index')->with('success', 'Laporan berhasil diperbarui!');
-    }
-
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Menampilkan halaman detail laporan
-     *
-     * @param Report $report
-     * @return \Illuminate\View\View
-     */
-    /*******  13f913d1-3b63-43ef-b127-dc60c3c12ed5  *******/
-    public function show(Report $report)
-    {
-        return view('reports.show', compact('report'));
     }
 }

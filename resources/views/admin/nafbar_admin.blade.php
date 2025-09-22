@@ -80,21 +80,28 @@
                         <i class="fas fa-chart-bar mr-1"></i> Dashboard
                     </a>
 
-                     <a href="{{ route('admin.schedules.index') }}"
+                    <a href="{{ route('admin.schedules.index') }}"
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
                         <i class="fas fa-video mr-1"></i> Jadwal Zoom
                     </a>
-                    
-                    <a href="{{ route('anggota.index') }}"
+                     <a href="{{ route('admin.perwira.index') }}"
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
-                        <i class="fas fa-users mr-1"></i> Data Anggota
+                        <i class="fas fa-user-shield mr-2"></i> Perwira
                     </a>
-                   
+
+                    <a href="{{ route('admin.anggota.index') }}"
+                        class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
+                        <i class="fas fa-users mr-1"></i> Data petugas
+                    </a>
+
 
                     <a href="{{ route('admin.reports.index') }}"
                         class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
-                        <i class="fas fa-file-alt mr-2"></i> Data Laporan Zoom
+                        <i class="fas fa-file-alt mr-2"></i> Giat Zoom
                     </a>
+
+
+                   
 
 
                     <!-- User dropdown -->
@@ -147,14 +154,23 @@
                     class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
                     <i class="fas fa-chart-bar mr-2"></i> Dashboard
                 </a>
-                <a href="{{ route('anggota.index') }}"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                    <i class="fas fa-users mr-2"></i> Data Anggota
-                </a>
-                <a href="{{ route('admin.schedules.index') }}"
+                 <a href="{{ route('admin.schedules.index') }}"
                     class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
                     <i class="fas fa-video mr-2"></i> Jadwal Zoom
                 </a>
+                <a href="{{ route('admin.perwira.index') }}"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <i class="fas fa-user-shield mr-2"></i> Perwira
+                </a>
+                <a href="{{ route('admin.anggota.index') }}"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                  <i class="fas fa-users mr-1"></i> Data petugas
+                </a>
+                   <a href="{{ route('admin.reports.index') }}"
+                        class="nav-item text-gray-300 hover:bg-gray-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 flex items-center">
+                        <i class="fas fa-file-alt mr-2"></i> Giat Zoom
+                    </a>
+               
                 <div class="pt-4 pb-3 border-t border-gray-700">
                     <div class="flex items-center px-5">
                         <div
